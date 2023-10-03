@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <main>
-      <!-- Different styles for different devices: -->
       <router-view></router-view>
     </main>
   </div>
@@ -27,11 +26,10 @@ export default {
     overflow: hidden;
   }
 
-/* Define breakpoints for different devices */
 @media screen and (max-width: 768px) {
   /* Styles for smaller screens, e.g., mobile phones */
   html, body {
-    transform: scale(1.0); /* Adjust the scale as needed */
+    transform: scale(1.0);
     transform-origin: top left;
   }
 }
