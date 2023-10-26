@@ -4,15 +4,15 @@
       <div id="header"></div>
     </div>
 
-    <!-- Replace the existing card structures with the new format -->
     <div class="cardWrapper padded">
       <div class="horizontal-scroll-container">
         <div v-for="meal in mealsByFirstLetter" :key="meal.idMeal" class="card-item">
-          <div class="wrap animate pop">
+          <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
             <div class="overlay">
               <div class="overlay-content animate slide-left delay-2">
-                <h1 class="animate slide-left pop delay-4">{{ meal.strMeal }}</h1>
-                <p class="animate slide-left pop delay-5" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
+
+                <h1 class="animate slide-left pop delay-4" v-if="!isHover">{{ meal.strMeal }}</h1>
+                <p class="animate slide-left pop delay-5" v-if="!isHover" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
               </div>
               <div class="image-content animate slide delay-5">
                 <img :src="meal.strMealThumb" :alt="meal.strMeal" />
@@ -26,15 +26,16 @@
             <div class="text">
               <p>
                 <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
                 {{ meal.strInstructions }}
+              </p>
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Repeat the same structure for other categories if needed -->
 
     <router-view></router-view>
   </div>
@@ -52,6 +53,7 @@ export default {
       mealsByMainIngredient: [],
       mealsByCategory: [],
       mealsByArea: [],
+      isHover: false,
     };
   },
   created() {
@@ -144,16 +146,14 @@ export default {
   margin: 0 20px;
 }
 
-/* New card styles matching the format you specified */
-
 .wrap {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  width: 350px; /* Keep the same width as before */
-  height: 300px; /* Keep the same height as before */
+  width: 350px;
+  height: 300px;
   border: 8px solid;
-  border-image: linear-gradient(-50deg, green, #00b300, forestgreen, green, lightgreen, #00e600, green) 1;
+  border-image: linear-gradient(-50deg, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726) 1;
   transition: 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
@@ -165,7 +165,7 @@ export default {
   width: 100%;
   height: 100%;
   padding: 1rem 0.75rem;
-  background: #eb8705;
+  background: #eb8f05;
   transition: 0.4s ease-in-out;
   z-index: 1;
 }
@@ -174,7 +174,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  width: 30%; /* Adjust the width to make the image smaller */
+  width: 80%;
   height: 100%;
   background-size: cover;
   transition: 0.3s ease-in-out;
@@ -184,7 +184,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 35%; /* Adjust the width to your preference */
+  width: 35%;
   height: 100%;
   padding: 0.5rem 0 0 0.5rem;
   border: 3px solid;
@@ -253,6 +253,13 @@ export default {
   transform: translateX(60vmin);
 }
 
+.wrap:hover .overlay-content h1 {
+  display: none;
+}
+.wrap:hover .text span {
+  display: none;
+}
+
 .wrap:hover .dots {
   transform: translateX(1rem);
 }
@@ -261,19 +268,21 @@ export default {
   background: white;
 }
 
-/* Animations and timing delays */
 .animate {
-  animation-duration: 0.7s;
+  animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(.26, .53, .74, 1.48);
   animation-fill-mode: backwards;
 }
 
-/* Pop In */
+.animate.slide-left.pop.delay-4 {
+    color: white;
+  }
+  
 .pop { animation-name: pop; }
 @keyframes pop {
   0% {
     opacity: 0;
-    transform: scale(0.5, 0.5);
+    transform: scale(0.1, 0.1);
   }
   100% {
     opacity: 1;
@@ -281,7 +290,6 @@ export default {
   }
 }
 
-/* Slide In */
 .slide { animation-name: slide; }
 @keyframes slide {
   0% {
@@ -293,8 +301,6 @@ export default {
     transform: translate(0, 0);
   }
 }
-
-/* Slide Left */
 .slide-left { animation-name: slide-left; }
 @keyframes slide-left {
   0% {
