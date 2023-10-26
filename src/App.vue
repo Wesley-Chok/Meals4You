@@ -26,11 +26,11 @@ export default {
     overflow: hidden;
   }
 
-@media screen and (max-width: 768px) {
-  /* Styles for smaller screens, e.g., mobile phones */
-  html, body {
-    transform: scale(1.0);
-    transform-origin: top left;
+  @media screen and (max-width: 768px) {
+    /* Apply the transformation to specific elements, e.g., the main content */
+    html, body, main {
+      transform: scale(0.8); /* Adjust the scaling factor as needed */
+      transform-origin: top left;
+    }
   }
-}
 </style>

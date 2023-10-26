@@ -4,6 +4,8 @@
       <div id="header"></div>
     </div>
 
+    <Search />
+    
     <div class="cardWrapper padded">
       <div class="horizontal-scroll-container">
         <div v-for="meal in mealsByFirstLetter" :key="meal.idMeal" class="card-item">
@@ -43,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import Search from './Search.vue';
 
 export default {
   name: "MainMenu",
@@ -101,6 +104,9 @@ export default {
         console.error('Error fetching meals by area:', error);
       });
   },
+  components: {
+    Search,
+  }
 };
 </script>
 
