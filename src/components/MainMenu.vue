@@ -1,5 +1,5 @@
 <template>
-  <div class = "mainmenu">
+  <div class="mainmenu">
     <div class="headerWrapper">
       <div id="header"></div>
     </div>
@@ -7,53 +7,38 @@
     <Search />
     
     <div class="cardWrapper padded">
-      <h2>List all meals by first letter (Letter 'A' Example)</h2>
       <div class="horizontal-scroll-container">
         <div v-for="meal in mealsByFirstLetter" :key="meal.idMeal" class="card-item">
-          <div class="card">
-            <img :src="meal.strMealThumb" :alt="meal.strMeal" />
-            <div class="card-category">{{ meal.strMeal }}</div>
+          <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
+            <div class="overlay">
+              <div class="overlay-content animate slide-left delay-2">
+
+                <h1 class="animate slide-left pop delay-4" v-if="!isHover">{{ meal.strMeal }}</h1>
+                <p class="animate slide-left pop delay-5" v-if="!isHover" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
+              </div>
+              <div class="image-content animate slide delay-5">
+                <img :src="meal.strMealThumb" :alt="meal.strMeal" />
+              </div>
+              <div class="dots animate">
+                <div class="dot animate slide-up delay-6"></div>
+                <div class="dot animate slide-up delay-7"></div>
+                <div class="dot animate slide-up delay-8"></div>
+              </div>
+            </div>
+            <div class="text">
+              <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                {{ meal.strInstructions }}
+              </p>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    
-    <div class="cardWrapper padded">
-      <h2>Filter by main ingredient (Chicken Breast Example)</h2>
-      <div class="horizontal-scroll-container">
-        <div v-for="meal in mealsByMainIngredient" :key="meal.idMeal" class="card-item">
-          <div class="card">
-            <img :src="meal.strMealThumb" :alt="meal.strMeal" />
-            <div class="card-category">{{ meal.strMeal }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="cardWrapper padded">
-      <h2>Filter by Category (Seafood Example)</h2>
-      <div class="horizontal-scroll-container">
-        <div v-for="meal in mealsByCategory" :key="meal.idMeal" class="card-item">
-          <div class="card">
-            <img :src="meal.strMealThumb" :alt="meal.strMeal" />
-            <div class="card-category">{{ meal.strMeal }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="cardWrapper padded">
-      <h2>Filter by Area (Canadian Example)</h2>
-      <div class="horizontal-scroll-container">
-        <div v-for="meal in mealsByArea" :key="meal.idMeal" class="card-item">
-          <div class="card">
-            <img :src="meal.strMealThumb" :alt="meal.strMeal" />
-            <div class="card-category">{{ meal.strMeal }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
+
     <router-view></router-view>
   </div>
 </template>
@@ -71,6 +56,7 @@ export default {
       mealsByMainIngredient: [],
       mealsByCategory: [],
       mealsByArea: [],
+      isHover: false,
     };
   },
   created() {
@@ -126,10 +112,11 @@ export default {
 
 
 <style scoped>
-.mainmenu{
+.mainmenu {
   overflow-y: scroll;
   max-height: 80vh;
 }
+
 .headerWrapper {
   width: 100%;
   height: 300px;
@@ -160,39 +147,220 @@ export default {
   overflow: visible;
 }
 
-.card {
-  display: flex;
-  flex-wrap: wrap;
-  width: 350px;
-  height: 300px;
-  margin-right: -20px;
-}
-
 .card-item {
   flex: 1;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-  background-size: cover !important;
-  color: white;
-  position: relative;
-  border-radius: 5px;
-  margin: 0 50px 0 0;
+  margin: 0 20px;
 }
 
-.card img {
+.wrap {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 350px;
+  height: 300px;
+  border: 8px solid;
+  border-image: linear-gradient(-50deg, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726, #ff8c00, #ffa726) 1;
+  transition: 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
+  padding: 1rem 0.75rem;
+  background: #eb8f05;
+  transition: 0.4s ease-in-out;
+  z-index: 1;
 }
 
-.card-category {
+.image-content {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 15px;
-  color: white;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 5px 10px;
-  border-radius: 5px;
-  max-width: 10%;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100%;
+  background-size: cover;
+  transition: 0.3s ease-in-out;
+}
+
+.overlay-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 35%;
+  height: 100%;
+  padding: 0.5rem 0 0 0.5rem;
+  border: 3px solid;
+  border-image: linear-gradient(
+    to bottom,
+    #AEA724 5%,
+    rgb(243, 158, 0) 35% 65%,
+    #AEA724 95%
+  ) 0 0 0 100%;
+  transition: 0.3s ease-in-out 0.2s;
+  z-index: 1;
+}
+
+.inset {
+  max-width: 100%; /* Ensure the image within .inset fits the card width */
+  margin: 0.25em 1em 1em 0;
+  border-radius: 0.25em;
+  float: left;
+}
+
+.dots {
+  position: absolute;
+  bottom: 1rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 55px;
+  height: 4vmin;
+  transition: 0.3s ease-in-out 0.3s;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  background: yellow;
+  border: 1px solid indigo;
+  border-radius: 50%;
+  transition: 0.3s ease-in-out 0.3s;
+}
+
+.text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60vmin;
+  height: 100%;
+  padding: 3vmin 4vmin;
+  background: #fff;
+  box-shadow: inset 1px 1px 15px 0 rgba(0 0 0 / 0.4);
+  overflow-y: scroll;
+}
+
+.wrap:hover .overlay {
+  transform: translateX(-60vmin);
+}
+
+.wrap:hover .image-content {
+  width: 30vmin;
+}
+
+.wrap:hover .overlay-content {
+  border: none;
+  transition-delay: 0.2s;
+  transform: translateX(60vmin);
+}
+
+.wrap:hover .overlay-content h1 {
+  display: none;
+}
+.wrap:hover .text span {
+  display: none;
+}
+
+.wrap:hover .dots {
+  transform: translateX(1rem);
+}
+
+.wrap:hover .dots .dot {
+  background: white;
+}
+
+.animate {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(.26, .53, .74, 1.48);
+  animation-fill-mode: backwards;
+}
+
+.animate.slide-left.pop.delay-4 {
+    color: white;
+  }
+  
+.pop { animation-name: pop; }
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.1, 0.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+
+.slide { animation-name: slide; }
+@keyframes slide {
+  0% {
+    opacity: 0;
+    transform: translate(4em, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+.slide-left { animation-name: slide-left; }
+@keyframes slide-left {
+  0% {
+    opacity: 0;
+    transform: translate(-40px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.slide-up { animation-name: slide-up; }
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(3em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-1 {
+  animation-delay: 0.3s;
+}
+
+.delay-2 {
+  animation-delay: 0.6s;
+}
+
+.delay-3 {
+  animation-delay: 0.9s;
+}
+
+.delay-4 {
+  animation-delay: 1.2s;
+}
+
+.delay-5 {
+  animation-delay: 1.5s;
+}
+
+.delay-6 {
+  animation-delay: 1.8s;
+}
+
+.delay-7 {
+  animation-delay: 2.1s;
+}
+
+.delay-8 {
+  animation-delay: 2.4s;
 }
 </style>
 
