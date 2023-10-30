@@ -7,7 +7,8 @@
     <Search />
     
     <div class="cardWrapper padded">
-      <div class="horizontal-scroll-container">
+      <h1>Meals by First Letter 'A'</h1>
+      <div class="horizontal-scroll-container equal-spacing">
         <div v-for="meal in mealsByFirstLetter" :key="meal.idMeal" class="card-item">
           <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
             <div class="overlay">
@@ -39,6 +40,107 @@
       </div>
     </div>
 
+    <div class="cardWrapper padded">
+      <h1>Seafood</h1>
+      <div class="horizontal-scroll-container equal-spacing">
+        <div v-for="meal in mealsByCategory" :key="meal.idMeal" class="card-item">
+          <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
+            <div class="overlay">
+              <div class="overlay-content animate slide-left delay-2">
+
+                <h1 class="animate slide-left pop delay-4" v-if="!isHover">{{ meal.strMeal }}</h1>
+                <p class="animate slide-left pop delay-5" v-if="!isHover" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
+              </div>
+              <div class="image-content animate slide delay-5">
+                <img :src="meal.strMealThumb" :alt="meal.strMeal" />
+              </div>
+              <div class="dots animate">
+                <div class="dot animate slide-up delay-6"></div>
+                <div class="dot animate slide-up delay-7"></div>
+                <div class="dot animate slide-up delay-8"></div>
+              </div>
+            </div>
+            <div class="text">
+              <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                {{ meal.strInstructions }}
+              </p>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cardWrapper padded">
+      <h1>Canadian Meals</h1>
+      <div class="horizontal-scroll-container equal-spacing">
+        <div v-for="meal in mealsByArea" :key="meal.idMeal" class="card-item">
+          <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
+            <div class="overlay">
+              <div class="overlay-content animate slide-left delay-2">
+
+                <h1 class="animate slide-left pop delay-4" v-if="!isHover">{{ meal.strMeal }}</h1>
+                <p class="animate slide-left pop delay-5" v-if="!isHover" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
+              </div>
+              <div class="image-content animate slide delay-5">
+                <img :src="meal.strMealThumb" :alt="meal.strMeal" />
+              </div>
+              <div class="dots animate">
+                <div class="dot animate slide-up delay-6"></div>
+                <div class="dot animate slide-up delay-7"></div>
+                <div class="dot animate slide-up delay-8"></div>
+              </div>
+            </div>
+            <div class="text">
+              <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                <p>
+                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+                {{ meal.strInstructions }}
+              </p>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cardWrapper padded">
+      <h1>Desserts</h1>
+  <div class="horizontal-scroll-container equal-spacing">
+    <div v-for="meal in mealsByNewCategory" :key="meal.idMeal" class="card-item">
+      <div class="wrap animate pop" @mouseover="isHover = true" @mouseleave="isHover = false">
+        <div class="overlay">
+          <div class="overlay-content animate slide-left delay-2">
+            <h1 class="animate slide-left pop delay-4" v-if="!isHover">{{ meal.strMeal }}</h1>
+            <p class="animate slide-left pop delay-5" v-if="!isHover" style="color: white; margin-bottom: 2.5rem;">Category: <em>{{ meal.strCategory }}</em></p>
+          </div>
+          <div class="image-content animate slide delay-5">
+            <img :src="meal.strMealThumb" :alt="meal.strMeal" />
+          </div>
+          <div class="dots animate">
+            <div class="dot animate slide-up delay-6"></div>
+            <div class="dot animate slide-up delay-7"></div>
+            <div class="dot animate slide-up delay-8"></div>
+          </div>
+        </div>
+        <div class="text">
+          <p>
+            <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+            <p>
+            <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
+            {{ meal.strInstructions }}
+          </p>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -56,13 +158,17 @@ export default {
       mealsByMainIngredient: [],
       mealsByCategory: [],
       mealsByArea: [],
+      mealsByNewCategory: [],
       isHover: false,
+      scrolling: false,
+      scrollTimeout: null,
     };
   },
   created() {
     axios.get('https://www.themealdb.com/api/json/v1/1/random.php')
       .then((response) => {
         this.meals = response.data.meals;
+        console.log("Meals from random API:", this.meals);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -72,6 +178,7 @@ export default {
     axios.get('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
       .then((response) => {
         this.mealsByFirstLetter = response.data.meals;
+        console.log("Meals by first letter 'A':", this.mealsByFirstLetter);
       })
       .catch((error) => {
         console.error('Error fetching meals by first letter:', error);
@@ -90,6 +197,9 @@ export default {
     axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=Seafood')
       .then((response) => {
         this.mealsByCategory = response.data.meals;
+        console.log("Meals by category 'Seafood':", this.mealsByCategory);
+
+        this.fetchInstructionsForCategoryMeals();
       })
       .catch((error) => {
         console.error('Error fetching meals by category:', error);
@@ -99,14 +209,86 @@ export default {
     axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?a=Canadian')
       .then((response) => {
         this.mealsByArea = response.data.meals;
+        console.log("Meals by area 'Canadian':", this.mealsByArea);
+
+        this.fetchInstructionsForAreaMeals();
       })
       .catch((error) => {
         console.error('Error fetching meals by area:', error);
       });
+
+      // Fetch meals in a new category, for example, 'Dessert'
+    axios.get('https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert')
+      .then((response) => {
+        this.mealsByNewCategory = response.data.meals;
+        console.log("Meals by category 'Dessert':", this.mealsByNewCategory);
+        
+        this.fetchInstructionsForNewCategoryMeals();
+      })
+      .catch((error) => {
+        console.error('Error fetching meals by category:', error);
+      });
+  },
+  methods: {
+    async fetchInstructionsForCategoryMeals() {
+      for (const meal of this.mealsByCategory) {
+        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+        const mealDetails = response.data.meals[0];
+        meal.strInstructions = mealDetails.strInstructions;
+      }
+    },
+    async fetchInstructionsForCategoryMeals() {
+      for (const meal of this.mealsByCategory) {
+        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+        const mealDetails = response.data.meals[0];
+        meal.strInstructions = mealDetails.strInstructions;
+      }
+    },
+    async fetchInstructionsForAreaMeals() {
+      for (const meal of this.mealsByArea) {
+        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+        const mealDetails = response.data.meals[0];
+        meal.strInstructions = mealDetails.strInstructions;
+      }
+    },
+    async fetchInstructionsForNewCategoryMeals() {
+      for (const meal of this.mealsByNewCategory) {
+        const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`);
+        const mealDetails = response.data.meals[0];
+        meal.strInstructions = mealDetails.strInstructions;
+      }
+    },
+    handleScroll() {
+      this.scrolling = true;
+      if (this.scrollTimeout) {
+        clearTimeout(this.scrollTimeout);
+      }
+      this.scrollTimeout = setTimeout(() => {
+        this.scrolling = false;
+      }, 500);
+    },
+  },
+  watch: {
+    scrolling(newValue) {
+      const mainMenu = document.querySelector('.mainmenu');
+      if (mainMenu) {
+        if (newValue) {
+          mainMenu.classList.remove('hide-scrollbar');
+        } else {
+          mainMenu.classList.add('hide-scrollbar');
+        }
+      }
+    },
   },
   components: {
     Search,
-  }
+  },
+  mounted() {
+    const mainMenu = document.querySelector('.mainmenu');
+    if (mainMenu) {
+      mainMenu.addEventListener('scroll', this.handleScroll);
+    }
+  },
 };
 </script>
 
@@ -115,7 +297,26 @@ export default {
 .mainmenu {
   overflow-y: scroll;
   max-height: 80vh;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #eb8f05 #F4F4F4; /* Firefox */
+  width: 100%; /* Set the width to 100% */
+  margin: 0; /* Remove the margin */
 }
+
+/* Add this rule to keep the scrollbar width consistent */
+.mainmenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mainmenu::-webkit-scrollbar-thumb {
+  background: #e2500c;
+  border-radius: 10px; /* Adjust the value for the desired roundness */
+}
+
+.mainmenu::-webkit-scrollbar-track {
+  background: #F4F4F4;
+}
+
 
 .headerWrapper {
   width: 100%;
@@ -140,16 +341,43 @@ export default {
   width: 100%;
 }
 
+/* Customize the horizontal scroll bar inside cardWrapper */
 .horizontal-scroll-container {
   display: flex;
   padding: 10px;
   flex-direction: row;
-  overflow: visible;
+  overflow: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #ff7300 #F4F4F4; /* Firefox */
 }
+
+/* Webkit (Chrome, Safari, Opera) */
+.horizontal-scroll-container::-webkit-scrollbar {
+  width: 2px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+  background: #e2500c;
+  border-radius: 10px; 
+  width: 2px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+  background: #F4F4F4;
+}
+
 
 .card-item {
   flex: 1;
-  margin: 0 20px;
+  margin-right: 50px;
+}
+
+.equal-spacing {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* You can adjust this as needed */
+  overflow-x: auto; /* Add this to enable horizontal scrolling */
+  padding: 20px;
 }
 
 .wrap {
@@ -275,7 +503,7 @@ export default {
 }
 
 .animate {
-  animation-duration: 0.3s;
+  animation-duration: 0.5s;
   animation-timing-function: cubic-bezier(.26, .53, .74, 1.48);
   animation-fill-mode: backwards;
 }
@@ -284,7 +512,8 @@ export default {
     color: white;
   }
   
-.pop { animation-name: pop; }
+  .pop { animation-name: pop; animation-duration: 1s; }
+
 @keyframes pop {
   0% {
     opacity: 0;
@@ -296,7 +525,8 @@ export default {
   }
 }
 
-.slide { animation-name: slide; }
+.slide { animation-name: slide; animation-duration: 10s; }
+
 @keyframes slide {
   0% {
     opacity: 0;
@@ -307,7 +537,9 @@ export default {
     transform: translate(0, 0);
   }
 }
-.slide-left { animation-name: slide-left; }
+
+.slide-left { animation-name: slide-left; animation-duration: 0.5s; }
+
 @keyframes slide-left {
   0% {
     opacity: 0;
@@ -363,6 +595,3 @@ export default {
   animation-delay: 2.4s;
 }
 </style>
-
-
-

@@ -18,7 +18,6 @@
     },
     methods: {
       navigateToSearchPage() {
-        // Use Vue Router to navigate to the search page when the search bar is clicked
         this.$router.push({ name: 'SearchPage' });
       },
     },
@@ -28,7 +27,7 @@
   <style scoped>
   .search-container {
     margin-bottom: 20px;
-    cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+    cursor: pointer;
   }
   </style>
   
