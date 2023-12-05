@@ -28,7 +28,6 @@
             </div>
             <div class="text">
               <p>
-                <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
                 <p>
                 <img class="inset" :src="meal.strMealThumb" :alt="meal.strMeal" />
                 {{ meal.strInstructions }}
@@ -294,45 +293,34 @@ export default {
 
 
 <style scoped>
-.mainmenu {
-  overflow-y: scroll;
-  max-height: 80vh;
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #eb8f05 #F4F4F4; /* Firefox */
-  width: 100%; /* Set the width to 100% */
-  margin: 0; /* Remove the margin */
-}
-
 /* Add this rule to keep the scrollbar width consistent */
-.mainmenu::-webkit-scrollbar {
-  width: 8px;
-}
+.mainmenu {
+    overflow-y: scroll;
+    max-height: 80vh;
+    scrollbar-width: thin;
+    scrollbar-color: #eb8f05 #F4F4F4;
+    max-width: 100%; /* Adjusted to 100% for responsiveness */
+    margin: 0 auto;
+    padding: 10px; /* Added padding for better visual appeal */
+  }
 
-.mainmenu::-webkit-scrollbar-thumb {
-  background: #e2500c;
-  border-radius: 10px; /* Adjust the value for the desired roundness */
-}
+  .headerWrapper {
+    width: 100%;
+    height: 200px; /* Adjusted height for better responsiveness */
+  }
 
-.mainmenu::-webkit-scrollbar-track {
-  background: #F4F4F4;
-}
+  /* Add a responsive image style for the header */
+  #header {
+    background-image: url('../assets/headerImage.png');
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
 
-
-.headerWrapper {
-  width: 100%;
-  height: 300px;
-}
-
-#header {
-  background-image: url('../assets/headerImage.png');
-  width: 100%;
-  height: 300px;
-  margin: 0 auto;
-}
-
-.padded {
-  padding: 100px 0;
-}
+  .padded {
+    padding: 20px 10px; /* Adjusted padding for better spacing on smaller screens */
+  }
 
 .cardWrapper {
   overflow-x: scroll;
@@ -430,7 +418,10 @@ export default {
   ) 0 0 0 100%;
   transition: 0.3s ease-in-out 0.2s;
   z-index: 1;
+  max-height: 100%; /* Add this line to limit the maximum height of the content */
+  max-width: 100%;
 }
+
 
 .inset {
   max-width: 100%; /* Ensure the image within .inset fits the card width */
@@ -465,7 +456,7 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  width: 60vmin;
+  max-width: 100%;
   height: 100%;
   padding: 3vmin 4vmin;
   background: #fff;

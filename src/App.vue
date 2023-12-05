@@ -26,9 +26,14 @@ export default {
     overflow: hidden;
   }
 
+  main {
+    /* Add some styling to your main content here */
+    padding: 20px;
+  }
+
   @media screen and (max-width: 768px) {
     /* Apply the transformation to specific elements, e.g., the main content */
-    html, body, main {
+    main {
       transform: scale(0.8); /* Adjust the scaling factor as needed */
       transform-origin: top left;
     }

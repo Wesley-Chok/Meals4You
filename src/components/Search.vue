@@ -29,5 +29,18 @@
     margin-bottom: 20px;
     cursor: pointer;
   }
+
+  button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
   </style>
   
